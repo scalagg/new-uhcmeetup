@@ -93,6 +93,8 @@ object UhcMeetupWorldGenerationRunnable : BukkitRunnable()
         world.setGameRuleValue("difficulty", "0")
         world.time = 0
 
+        handleLoadChunks()
+
         for (chunk in world.getLoadedChunks())
         {
             val cx = chunk.x shl 4

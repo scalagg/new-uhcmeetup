@@ -32,7 +32,7 @@ object BorderHandler
 
     fun setBorder(border: Int)
     {
-        val world = Bukkit.getWorld("meetup_game")
+        val world = Bukkit.getWorld("meetup")
         currentBorder = border
 
         this.addBedrockBorder(world.name, border, 6)
@@ -63,7 +63,7 @@ object BorderHandler
     {
         for (player in Bukkit.getOnlinePlayers())
         {
-            if (player.world.name.equals("meetup_game", ignoreCase = true))
+            if (player.world.name.equals("meetup", ignoreCase = true))
             {
                 if (player.location.blockX > border)
                 {

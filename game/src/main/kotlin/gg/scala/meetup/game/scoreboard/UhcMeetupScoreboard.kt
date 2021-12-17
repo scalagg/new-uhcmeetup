@@ -28,9 +28,6 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
         if (state == CgsGameState.WAITING || state == CgsGameState.STARTING)
         {
             lines.add("")
-            lines.add("Map: ${CC.GREEN}${
-                CgsGameEngine.INSTANCE.gameArena.getId()
-            }")
             lines.add("Players: ${CC.GREEN}${
                 Bukkit.getOnlinePlayers().size
             }/${
@@ -70,7 +67,7 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
             )
             lines.add("")
             lines.add("Your Ping: " + CC.PRI + getFormattedPing(getPing(player)))
-            lines.add("Your Kills: " + CC.GREEN + statistics.gameKills)
+            lines.add("Your Kills: " + CC.GREEN + statistics.gameKills.value)
 
             if (statistics.noCleanTimer != null)
             {

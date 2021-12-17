@@ -56,7 +56,7 @@ class UhcMeetupEngine(
         for (i in 0 until 3.coerceAtMost(sortedKills.size))
         {
             val (key, value) = sortedKills[i]
-            topKills.add("   " + CC.SEC + (if (i == 0) "1st" else if (i == 1) "2nd" else "3rd") + CC.GRAY + " - " + CubedCacheUtil.fetchName(key) + CC.GRAY + " - " + CC.PRI + value)
+            topKills.add("  #" + i + " - " + CC.WHITE + CubedCacheUtil.fetchName(key) + CC.GRAY + " - " + CC.PRI + value)
         }
 
         return topKills

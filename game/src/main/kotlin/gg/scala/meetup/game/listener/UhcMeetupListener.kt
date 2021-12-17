@@ -51,7 +51,7 @@ object UhcMeetupListener : Listener
     @EventHandler
     fun onBlockPlace(event: BlockPlaceEvent)
     {
-        val gameWorld = Bukkit.getWorld("meetup_game")
+        val gameWorld = Bukkit.getWorld("meetup")
 
         if (event.block.location.y >= gameWorld.getHighestBlockYAt(0, 0) + 30)
         {

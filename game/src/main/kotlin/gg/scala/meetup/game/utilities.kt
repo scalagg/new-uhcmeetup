@@ -27,7 +27,7 @@ fun getRandomSpawnLocation(): Location
     val x = Random.nextInt(100 * 2) - 100
     val z = Random.nextInt(100 * 2) - 100
 
-    val world = Bukkit.getWorld("meetup_game")
+    val world = Bukkit.getWorld("meetup")
 
     return Location(
         world,
