@@ -25,6 +25,7 @@ import org.bukkit.event.player.PlayerItemConsumeEvent
 import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
+import java.util.*
 
 /**
  * @author GrowlyX
@@ -32,6 +33,8 @@ import org.bukkit.potion.PotionEffectType
  */
 object UhcMeetupListener : Listener
 {
+    val killsTracker = mutableMapOf<UUID, Int>()
+
     @EventHandler
     fun onBlockBreak(event: BlockBreakEvent)
     {
@@ -112,6 +115,8 @@ object UhcMeetupListener : Listener
         for (onlinePlayer in Bukkit.getOnlinePlayers())
         {
             onlinePlayer sit false
+
+            killsTracker[onlinePlayer.uniqueId] = 0
         }
 
         UhcMeetupBorderRunnable.initialLoad()
@@ -149,6 +154,13 @@ object UhcMeetupListener : Listener
                 it != null && it.type != Material.AIR
             }.forEach {
                 items.add(it)
+            }
+        }
+
+        if (event.entity.killer != null)
+        {
+            killsTracker.compute(event.entity.killer.uniqueId) { _, kills ->
+                kills?.plus(1)
             }
         }
 
