@@ -4,7 +4,9 @@ import gg.scala.cgs.common.CgsGameEngine
 import gg.scala.cgs.common.CgsGameState
 import gg.scala.cgs.common.player.handler.CgsPlayerHandler
 import gg.scala.meetup.game.UhcMeetupEngine
+import gg.scala.meetup.game.handler.BorderHandler
 import gg.scala.meetup.game.loadout.UhcMeetupExtendedLoadoutHandler
+import gg.scala.meetup.game.runnable.UhcMeetupBorderRunnable
 import gg.scala.meetup.game.scenario.impl.TimeBombGameScenario
 import gg.scala.meetup.game.sit
 import gg.scala.meetup.game.teleportToRandomLocationWithinArena
@@ -111,6 +113,8 @@ object UhcMeetupListener : Listener
         {
             onlinePlayer sit false
         }
+
+        UhcMeetupBorderRunnable.initialLoad()
     }
 
     @EventHandler

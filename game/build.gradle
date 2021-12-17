@@ -1,4 +1,6 @@
 dependencies {
     compileOnly fileTree("library")
     implementation project(":shared")
+
+    implementation "io.papermc:paperlib:1.0.6"
 }

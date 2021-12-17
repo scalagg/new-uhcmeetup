@@ -16,11 +16,20 @@ object UhcMeetupNametagAdapter : CgsGameNametagAdapter
     val RED_TAG = NametagProvider
         .createNametag(CC.RED, "")
 
+    @JvmStatic
+    val GREEN_TAG = NametagProvider
+        .createNametag(CC.GREEN, "")
+
     override fun computeNametag(
         viewer: CgsGamePlayer,
         target: CgsGamePlayer
     ): NametagInfo
     {
+        if (viewer == target)
+        {
+            return GREEN_TAG
+        }
+
         return RED_TAG
     }
 }
