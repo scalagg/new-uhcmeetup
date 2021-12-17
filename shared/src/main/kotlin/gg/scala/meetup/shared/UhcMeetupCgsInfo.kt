@@ -1,7 +1,7 @@
 package gg.scala.meetup.shared
 
 import gg.scala.cgs.common.information.CgsGameGeneralInfo
-import gg.scala.ktp.game.gamemode.KillThePlayerSoloGameMode
+import gg.scala.meetup.shared.gamemode.UhcMeetupSoloGameMode
 
 /**
  * @author GrowlyX
@@ -11,5 +11,5 @@ object UhcMeetupCgsInfo : CgsGameGeneralInfo(
     "UHC Meetup", 0.01F, 5,
     61, UhcMeetupCgsAwards, true,
     true, false, true,
-    true, listOf(KillThePlayerSoloGameMode)
+    true, listOf(UhcMeetupSoloGameMode)
 )

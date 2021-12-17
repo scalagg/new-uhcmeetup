@@ -1,4 +1,4 @@
-package gg.scala.ktp.game.gamemode
+package gg.scala.meetup.shared.gamemode
 
 import gg.scala.cgs.common.information.mode.CgsGameMode
 import gg.scala.meetup.shared.arena.UhcMeetupRandomArena
@@ -9,7 +9,7 @@ import org.bukkit.Material
  * @author GrowlyX
  * @since 12/3/2021
  */
-object KillThePlayerSoloGameMode : CgsGameMode
+object UhcMeetupSoloGameMode : CgsGameMode
 {
     override fun getId() = "solo"
     override fun getName() = "Solo"

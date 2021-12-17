@@ -2,7 +2,9 @@ package gg.scala.meetup.game
 
 import gg.scala.cgs.common.information.arena.CgsGameArenaHandler
 import gg.scala.commons.ExtendedScalaPlugin
-import gg.scala.ktp.game.gamemode.KillThePlayerSoloGameMode
+import gg.scala.meetup.shared.gamemode.UhcMeetupSoloGameMode
+import gg.scala.meetup.shared.UhcMeetupCgsInfo
+import gg.scala.meetup.shared.UhcMeetupCgsStatistics
 
 /**
  * @author GrowlyX
@@ -13,14 +15,16 @@ class UhcMeetupGame : ExtendedScalaPlugin()
     override fun enable()
     {
         CgsGameArenaHandler.initialLoad(
-            KillThePlayerSoloGameMode
+            UhcMeetupSoloGameMode
         )
 
-        val engine = KillThePlayerCgsEngine(
-            this, KillThePlayerCgsInfo,
-            KillThePlayerSoloGameMode
+        val engine = UhcMeetupEngine(
+            this, UhcMeetupCgsInfo,
+            UhcMeetupSoloGameMode
         )
-        engine.statisticType = KillThePlayerCgsStatistics::class
+        engine.statisticType = UhcMeetupCgsStatistics::class
         engine.initialLoad()
+
+        UhcMeetupEngine.INSTANCE = engine
     }
 }

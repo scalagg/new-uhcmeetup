@@ -5,6 +5,10 @@ import gg.scala.cgs.common.CgsGameState
 import gg.scala.cgs.common.information.CgsGameGeneralInfo
 import gg.scala.cgs.common.information.mode.CgsGameMode
 import gg.scala.commons.ExtendedScalaPlugin
+import gg.scala.meetup.game.nametag.UhcMeetupNametagAdapter
+import gg.scala.meetup.game.scoreboard.UhcMeetupScoreboard
+import gg.scala.meetup.game.visibility.UhcMeetupVisibilityAdapter
+import gg.scala.meetup.shared.UhcMeetupCgsSnapshot
 import gg.scala.meetup.shared.UhcMeetupCgsStatistics
 import kotlin.properties.Delegates
 
@@ -31,10 +35,10 @@ class UhcMeetupEngine(
         return true
     }
 
-    override fun getScoreboardRenderer() = KillThePlayerScoreboard
-    override fun getVisibilityAdapter() = KillThePlayerVisibilityAdapter
-    override fun getNametagAdapter() = KillThePlayerNametagAdapter
-    override fun getSnapshotCreator() = KillThePlayerCgsSnapshot
+    override fun getScoreboardRenderer() = UhcMeetupScoreboard
+    override fun getVisibilityAdapter() = UhcMeetupVisibilityAdapter
+    override fun getNametagAdapter() = UhcMeetupNametagAdapter
+    override fun getSnapshotCreator() = UhcMeetupCgsSnapshot
 
     override fun getExtraWinInformation() = listOf(" Something something something")
 }
