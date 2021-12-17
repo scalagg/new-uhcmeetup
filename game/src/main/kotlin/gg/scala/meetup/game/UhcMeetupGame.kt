@@ -19,6 +19,8 @@ class UhcMeetupGame : ExtendedScalaPlugin()
 {
     override fun enable()
     {
+        UhcMeetupWorldGenerationRunnable.initialLoad()
+
         CgsGameArenaHandler.initialLoad(
             UhcMeetupSoloGameMode
         )
@@ -44,10 +46,6 @@ class UhcMeetupGame : ExtendedScalaPlugin()
             }
 
         UhcMeetupEngine.INSTANCE = engine
-
-        UhcMeetupWorldGenerationRunnable.initialLoad()
-        UhcMeetupWorldGenerationRunnable.runTaskTimer(this, 0L, 20L)
-
         CgsGameArenaHandler.world = Bukkit.getWorld("meetup")
     }
 }

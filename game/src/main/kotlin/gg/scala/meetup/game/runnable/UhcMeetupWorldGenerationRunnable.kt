@@ -1,6 +1,6 @@
 package gg.scala.meetup.game.runnable
 
-import gg.scala.cgs.common.CgsGameEngine
+import gg.scala.meetup.game.handler.BorderHandler
 import io.papermc.lib.PaperLib
 import me.lucko.helper.scheduler.threadlock.ServerThreadLock
 import net.minecraft.server.v1_8_R3.BiomeBase
@@ -8,7 +8,6 @@ import org.bukkit.*
 import org.bukkit.block.Biome
 import org.bukkit.craftbukkit.v1_8_R3.block.CraftBlock
 import org.bukkit.entity.Player
-import org.bukkit.scheduler.BukkitRunnable
 import java.io.File
 import java.util.logging.Logger
 
@@ -16,15 +15,8 @@ import java.util.logging.Logger
  * @author GrowlyX
  * @since 12/17/2021
  */
-object UhcMeetupWorldGenerationRunnable : BukkitRunnable()
+object UhcMeetupWorldGenerationRunnable
 {
-    private var world: World? = null
-
-    private var isGenerating = false
-    private var hasGenerated = false
-
-    private val startMilli = System.currentTimeMillis()
-
     fun initialLoad()
     {
         deleteDirectory(File("meetup"))
@@ -33,39 +25,17 @@ object UhcMeetupWorldGenerationRunnable : BukkitRunnable()
         swapBiomes()
     }
 
-    override fun run()
-    {
-        if (hasGenerated)
-        {
-            Logger.getGlobal().info("[UHCMeetup] Generation of the UHC Meetup world has finished.")
-            Logger.getGlobal()
-                .info("[UHCMeetup] It took " + (System.currentTimeMillis() - startMilli) + "ms to generate the world.")
-            this.cancel()
-            return
-        }
-        if (isGenerating)
-        {
-            Logger.getGlobal().info("[UHCMeetup] Currently generating the uhc meetup world...")
-        }
-    }
-
     private fun generateNewWorld()
     {
-        isGenerating = true
-
         val worldCreator = WorldCreator("meetup")
         worldCreator.generateStructures(false)
 
         try
         {
-            world = Bukkit.createWorld(worldCreator)
+            Bukkit.createWorld(worldCreator)
         } catch (ignored: Exception)
         {
-            Logger.getGlobal().info("World NPE when trying to generate map.")
-            Bukkit.getServer().unloadWorld(world, false)
-
-            deleteDirectory(File("meetup"))
-            isGenerating = false
+            Bukkit.shutdown()
             return
         }
 
@@ -95,7 +65,7 @@ object UhcMeetupWorldGenerationRunnable : BukkitRunnable()
 
         handleLoadChunks()
 
-        for (chunk in world.getLoadedChunks())
+        for (chunk in world.loadedChunks)
         {
             val cx = chunk.x shl 4
             val cz = chunk.z shl 4
@@ -108,48 +78,46 @@ object UhcMeetupWorldGenerationRunnable : BukkitRunnable()
             }
         }
 
-        hasGenerated = true
+        BorderHandler.setBorder(100)
     }
 
     private fun handleLoadChunks()
     {
-        Bukkit.getScheduler().runTaskLater(CgsGameEngine.INSTANCE.plugin, {
-            for (x in -110..109)
+        for (x in -110..109)
+        {
+            for (z in -110..109)
             {
-                for (z in -110..109)
+                val location = Location(
+                    Bukkit.getWorld("meetup"), x.toDouble(), 60.0,
+                    z.toDouble()
+                )
+                if (!location.chunk.isLoaded)
                 {
-                    val location = Location(
-                        Bukkit.getWorld("meetup"), x.toDouble(), 60.0,
-                        z.toDouble()
-                    )
-                    if (!location.chunk.isLoaded)
-                    {
-                        PaperLib.getChunkAtAsync(location)
-                            .whenComplete { chunk: Chunk, throwable: Throwable? ->
-                                if (throwable != null)
-                                {
-                                    Logger.getGlobal()
-                                        .info("Failed to load chunk async, fallbacking to sync loading. (" + throwable.message + ")")
+                    PaperLib.getChunkAtAsync(location)
+                        .whenComplete { chunk: Chunk, throwable: Throwable? ->
+                            if (throwable != null)
+                            {
+                                Logger.getGlobal()
+                                    .info("Failed to load chunk async, fallbacking to sync loading. (" + throwable.message + ")")
 
-                                    try
-                                    {
-                                        ServerThreadLock.obtain()
-                                            .use { location.world.loadChunk(x, z) }
-                                    } catch (exception: Exception)
-                                    {
-                                        Logger.getGlobal()
-                                            .info("Failed to load chunk sync. (" + exception.message + ")")
-                                    }
-                                } else
+                                try
+                                {
+                                    ServerThreadLock.obtain()
+                                        .use { location.world.loadChunk(x, z) }
+                                } catch (exception: Exception)
                                 {
                                     Logger.getGlobal()
-                                        .info("Loaded chunk at " + chunk.x + ", " + chunk.z + ".")
+                                        .info("Failed to load chunk sync. (" + exception.message + ")")
                                 }
+                            } else
+                            {
+                                Logger.getGlobal()
+                                    .info("Loaded chunk at " + chunk.x + ", " + chunk.z + ".")
                             }
-                    }
+                        }
                 }
             }
-        }, 100L)
+        }
     }
 
     private fun deleteDirectory(path: File): Boolean
