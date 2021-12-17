@@ -6,6 +6,7 @@ import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.meetup.game.UhcMeetupEngine
 import gg.scala.meetup.game.scenario.GameScenario
 import gg.scala.meetup.shared.UhcMeetupCgsStatistics
+import gg.scala.meetup.shared.tickable.TickableBukkitRunnable
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.time.TimeUtil
 import org.bukkit.Bukkit
@@ -56,12 +57,12 @@ object NoCleanGameScenario : GameScenario, Listener
     class NoCleanGameScenarioTimer(
         private val statistics: UhcMeetupCgsStatistics,
         private val player: Player
-    ) : BukkitRunnable()
+    ) : TickableBukkitRunnable()
     {
-        private var tick = 16
-
         init
         {
+            ticks = 16
+
             statistics.noCleanTimer = this
             player.sendMessage("${CC.SEC}Your no clean timer will expire in: ${CC.RED}15 seconds${CC.SEC}!")
 
@@ -76,12 +77,12 @@ object NoCleanGameScenario : GameScenario, Listener
                 return
             }
 
-            if (TICKS.contains(tick))
+            if (TICKS.contains(ticks))
             {
                 player.sendMessage("${CC.RED}Your no-clean timer expires in ${CC.BOLD}${
-                    TimeUtil.formatIntoDetailedString(tick)
+                    TimeUtil.formatIntoDetailedString(ticks)
                 }${CC.RED}!")
-            } else if (tick == 0)
+            } else if (ticks == 0)
             {
                 if (Bukkit.getPlayer(player.uniqueId) != null)
                 {
@@ -93,7 +94,7 @@ object NoCleanGameScenario : GameScenario, Listener
                 return
             }
 
-            tick--
+            ticks--
         }
     }
 }
