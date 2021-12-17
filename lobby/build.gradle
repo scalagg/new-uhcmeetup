@@ -1,0 +1,4 @@
+dependencies {
+    implementation fileTree("../internal")
+    compileOnly fileTree("library")
+}
