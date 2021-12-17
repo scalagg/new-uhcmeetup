@@ -2,6 +2,7 @@ package gg.scala.meetup.shared
 
 import gg.scala.cgs.common.player.statistic.GameSpecificStatistics
 import gg.scala.cgs.common.player.statistic.value.CgsGameStatistic
+import gg.scala.meetup.shared.loadout.UhcMeetupLoadout
 import org.bukkit.scheduler.BukkitRunnable
 
 /**
@@ -20,4 +21,13 @@ constructor(
 ) : GameSpecificStatistics()
 {
     var noCleanTimer: BukkitRunnable? = null
+    val loadout = UhcMeetupLoadout()
+
+    init
+    {
+        if (loadout.itemStacks.isEmpty())
+        {
+            loadout.resetAndApplyDefault()
+        }
+    }
 }
