@@ -48,5 +48,7 @@ object UhcMeetupBorderRunnable : BukkitRunnable()
                 }${CC.SEC}!"
             )
         }
+
+        BorderHandler.currentBorderTime--
     }
 }

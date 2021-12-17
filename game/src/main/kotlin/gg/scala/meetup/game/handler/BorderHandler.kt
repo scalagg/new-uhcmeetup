@@ -2,6 +2,7 @@ package gg.scala.meetup.game.handler
 
 import gg.scala.cgs.common.CgsGameEngine
 import io.papermc.lib.PaperLib
+import net.evilblock.cubed.util.CC
 import org.bukkit.*
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
@@ -21,8 +22,13 @@ object BorderHandler
         Material.SUGAR_CANE_BLOCK, Material.ICE, Material.SNOW
     )
 
-    var currentBorder = 0
-    var currentBorderTime = -1
+    var currentBorder = 100
+    var currentBorderTime = 120
+
+    fun getFormattedBorderStatus(): String
+    {
+        return if (this.currentBorderTime > 0) CC.GRAY + " (" + CC.RED + this.currentBorderTime + CC.GRAY + ")" else ""
+    }
 
     fun setBorder(border: Int)
     {
