@@ -1,0 +1,13 @@
+name: uhcmeetup
+version: 1.0.0
+main: gg.scala.meetup.game.UhcMeetupGame
+
+author: Scala
+website: https://scala.gg
+
+depend:
+  - Cubed
+  - helper
+  - Lemon
+  - cgs-engine
+  - Grape
