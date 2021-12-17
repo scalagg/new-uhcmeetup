@@ -23,12 +23,11 @@ object UhcMeetupRandomArena : CgsGameArena
 
     override fun getBukkitWorldName() = "meetup"
 
-    // TODO: 12/17/2021 match this with other shit
     override fun getPreLobbyLocation() = Location(
-        Bukkit.getWorld("meetup"), 1.0, 64.0, 1.0
+        Bukkit.getWorld("world"), 0.5, Bukkit.getWorld("world").getHighestBlockYAt(0, 0) + 5.0, 0.5
     )
 
     override fun getSpectatorLocation() = Location(
-        Bukkit.getWorld("meetup"), 1.0, 64.0, 1.0
+        Bukkit.getWorld("meetup"), 0.5, Bukkit.getWorld("meetup").getHighestBlockYAt(0, 0) + 15.0, 0.5
     )
 }
