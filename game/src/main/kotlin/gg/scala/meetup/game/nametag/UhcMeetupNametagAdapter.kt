@@ -3,6 +3,8 @@ package gg.scala.meetup.game.nametag
 import gg.scala.cgs.common.player.CgsGamePlayer
 import gg.scala.cgs.common.player.nametag.CgsGameNametagAdapter
 import net.evilblock.cubed.nametag.NametagInfo
+import net.evilblock.cubed.nametag.NametagProvider
+import net.evilblock.cubed.util.CC
 
 /**
  * @author GrowlyX
@@ -10,8 +12,15 @@ import net.evilblock.cubed.nametag.NametagInfo
  */
 object UhcMeetupNametagAdapter : CgsGameNametagAdapter
 {
-    override fun computeNametag(viewer: CgsGamePlayer, target: CgsGamePlayer): NametagInfo?
+    @JvmStatic
+    val RED_TAG = NametagProvider
+        .createNametag(CC.RED, "")
+
+    override fun computeNametag(
+        viewer: CgsGamePlayer,
+        target: CgsGamePlayer
+    ): NametagInfo
     {
-        return null
+        return RED_TAG
     }
 }
