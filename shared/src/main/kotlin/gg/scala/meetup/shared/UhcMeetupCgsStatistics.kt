@@ -2,6 +2,7 @@ package gg.scala.meetup.shared
 
 import gg.scala.cgs.common.player.statistic.GameSpecificStatistics
 import gg.scala.cgs.common.player.statistic.value.CgsGameStatistic
+import org.bukkit.scheduler.BukkitRunnable
 
 /**
  * @author GrowlyX
@@ -17,3 +18,6 @@ constructor(
     override var wins: CgsGameStatistic = CgsGameStatistic(),
     override var losses: CgsGameStatistic = CgsGameStatistic()
 ) : GameSpecificStatistics()
+{
+    var noCleanTimer: BukkitRunnable? = null
+}
