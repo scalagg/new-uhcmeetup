@@ -122,7 +122,10 @@ object UhcMeetupListener : Listener
         UhcMeetupBorderRunnable.initialLoad()
     }
 
-    @EventHandler
+    @EventHandler(
+        priority = EventPriority.HIGHEST,
+        ignoreCancelled = true
+    )
     fun onParticipantConnect(
         event: CgsGameEngine.CgsGameParticipantConnectEvent
     )

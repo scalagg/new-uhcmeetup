@@ -77,8 +77,6 @@ object UhcMeetupWorldGenerationRunnable
                 }
             }
         }
-
-        BorderHandler.setBorder(100)
     }
 
     private fun handleLoadChunks()
