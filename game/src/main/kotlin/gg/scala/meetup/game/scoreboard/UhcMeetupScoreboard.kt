@@ -9,6 +9,7 @@ import gg.scala.cgs.game.CgsEnginePlugin
 import gg.scala.meetup.game.UhcMeetupEngine
 import gg.scala.meetup.game.handler.BorderHandler
 import net.evilblock.cubed.util.CC
+import net.evilblock.cubed.util.bukkit.Tasks
 import net.evilblock.cubed.util.nms.MinecraftReflection.getPing
 import net.evilblock.cubed.util.time.TimeUtil
 import org.bukkit.Bukkit
@@ -22,6 +23,17 @@ import java.util.*
 object UhcMeetupScoreboard : CgsGameScoreboardRenderer
 {
     override fun getTitle() = "${CC.B_PRI}UHC Meetup"
+
+    var remaining = 0
+
+    init
+    {
+        Tasks.asyncTimer({
+            remaining = Bukkit.getOnlinePlayers()
+                .filter { !it.hasMetadata("spectator") }
+                .size
+        }, 0L, 10L)
+    }
 
     override fun render(lines: LinkedList<String>, player: Player, state: CgsGameState)
     {
@@ -63,7 +75,7 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
 
             lines.add("Border: " + CC.GREEN + BorderHandler.currentBorder + BorderHandler.getFormattedBorderStatus())
             lines.add(
-                "Remaining: " + CC.GREEN + Bukkit.getOnlinePlayers().size + "/" + CgsGameEngine.INSTANCE.originalRemaining
+                "Remaining: " + CC.GREEN + remaining + "/" + CgsGameEngine.INSTANCE.originalRemaining
             )
             lines.add("Ping: " + CC.PRI + getFormattedPing(getPing(player)))
             lines.add("Kills: " + CC.GREEN + statistics.gameKills.value)

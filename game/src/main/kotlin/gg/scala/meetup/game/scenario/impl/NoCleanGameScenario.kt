@@ -62,9 +62,7 @@ object NoCleanGameScenario : GameScenario, Listener
         init
         {
             ticks = 16
-
             statistics.noCleanTimer = this
-            player.sendMessage("${CC.SEC}Your no clean timer will expire in: ${CC.RED}15 seconds${CC.SEC}!")
 
             runTaskTimer(CgsGameEngine.INSTANCE.plugin, 0L, 20L)
         }
@@ -76,6 +74,8 @@ object NoCleanGameScenario : GameScenario, Listener
                 cancel()
                 return
             }
+
+            ticks--
 
             if (TICKS.contains(ticks))
             {
@@ -93,8 +93,6 @@ object NoCleanGameScenario : GameScenario, Listener
                 cancel()
                 return
             }
-
-            ticks--
         }
     }
 }

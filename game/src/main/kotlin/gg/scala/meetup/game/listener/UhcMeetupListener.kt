@@ -6,6 +6,7 @@ import gg.scala.cgs.common.states.CgsGameState
 import gg.scala.meetup.game.UhcMeetupEngine
 import gg.scala.meetup.game.loadout.UhcMeetupExtendedLoadoutHandler
 import gg.scala.meetup.game.runnable.UhcMeetupBorderRunnable
+import gg.scala.meetup.game.scenario.impl.NoCleanGameScenario
 import gg.scala.meetup.game.scenario.impl.TimeBombGameScenario
 import gg.scala.meetup.game.sit
 import gg.scala.meetup.game.teleportToRandomLocationWithinArena
@@ -19,6 +20,7 @@ import org.bukkit.event.EventPriority
 import org.bukkit.event.Listener
 import org.bukkit.event.block.BlockBreakEvent
 import org.bukkit.event.block.BlockPlaceEvent
+import org.bukkit.event.entity.EntityDamageByEntityEvent
 import org.bukkit.event.entity.EntityDamageEvent
 import org.bukkit.event.entity.PlayerDeathEvent
 import org.bukkit.event.player.PlayerItemConsumeEvent
@@ -72,6 +74,44 @@ object UhcMeetupListener : Listener
             val player = event.player
             player.removePotionEffect(PotionEffectType.REGENERATION)
             player.addPotionEffect(REGENERATION)
+        }
+    }
+
+    @EventHandler
+    fun onEntityDamageByEntity(
+        event: EntityDamageByEntityEvent
+    )
+    {
+        val damager = event.damager
+
+        if (damager is Player)
+        {
+            val damagerStatistics = UhcMeetupEngine.INSTANCE
+                .getStatistics(
+                    CgsPlayerHandler.find(damager)!!
+                )
+
+            val damaged = event.entity
+
+            if (damaged is Player)
+            {
+                if (damagerStatistics.noCleanTimer != null)
+                {
+                    NoCleanGameScenario
+                        .cancelNoCleanTimer(damager)
+                }
+
+                val damagedStatistics = UhcMeetupEngine.INSTANCE
+                    .getStatistics(
+                        CgsPlayerHandler.find(damaged)!!
+                    )
+
+                if (damagedStatistics.noCleanTimer != null)
+                {
+                    damager.sendMessage("${CC.RED}You cannot damage this player due to their No Clean timer!")
+                    event.isCancelled = true
+                }
+            }
         }
     }
 
@@ -191,5 +231,10 @@ object UhcMeetupListener : Listener
             player = event.entity,
             items = items
         )
+
+        event.entity.killer ?: return
+
+        NoCleanGameScenario
+            .startNoCleanTimer(event.entity.killer)
     }
 }
