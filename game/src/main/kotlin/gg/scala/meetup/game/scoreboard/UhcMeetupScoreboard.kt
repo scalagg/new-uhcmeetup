@@ -1,10 +1,10 @@
 package gg.scala.meetup.game.scoreboard
 
 import gg.scala.cgs.common.CgsGameEngine
-import gg.scala.cgs.common.CgsGameState
 import gg.scala.cgs.common.player.handler.CgsPlayerHandler
 import gg.scala.cgs.common.player.scoreboard.CgsGameScoreboardRenderer
 import gg.scala.cgs.common.runnable.state.StartingStateRunnable
+import gg.scala.cgs.common.states.CgsGameState
 import gg.scala.cgs.game.CgsEnginePlugin
 import gg.scala.meetup.game.UhcMeetupEngine
 import gg.scala.meetup.game.handler.BorderHandler
@@ -21,13 +21,14 @@ import java.util.*
  */
 object UhcMeetupScoreboard : CgsGameScoreboardRenderer
 {
-    override fun getTitle() = "${CC.B_GOLD}UHC Meetup"
+    override fun getTitle() = "${CC.B_PRI}UHC Meetup"
 
     override fun render(lines: LinkedList<String>, player: Player, state: CgsGameState)
     {
+        lines.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------")
+
         if (state == CgsGameState.WAITING || state == CgsGameState.STARTING)
         {
-            lines.add("")
             lines.add("Players: ${CC.GREEN}${
                 Bukkit.getOnlinePlayers().size
             }/${
@@ -60,14 +61,12 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
             val statistics = UhcMeetupEngine.INSTANCE
                 .getStatistics(cgsGamePlayer)
 
-            lines.add("")
             lines.add("Border: " + CC.GREEN + BorderHandler.currentBorder + BorderHandler.getFormattedBorderStatus())
             lines.add(
                 "Remaining: " + CC.GREEN + Bukkit.getOnlinePlayers().size + "/" + CgsGameEngine.INSTANCE.originalRemaining
             )
-            lines.add("")
-            lines.add("Your Ping: " + CC.PRI + getFormattedPing(getPing(player)))
-            lines.add("Your Kills: " + CC.GREEN + statistics.gameKills.value)
+            lines.add("Ping: " + CC.PRI + getFormattedPing(getPing(player)))
+            lines.add("Kills: " + CC.GREEN + statistics.gameKills.value)
 
             if (statistics.noCleanTimer != null)
             {
@@ -78,7 +77,8 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
         }
 
         lines.add("")
-        lines.add("${CC.GRAY}www.pvp.bar")
+        lines.add("${CC.GREEN}scala.gg")
+        lines.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------")
     }
 
     private fun getFormattedPing(ping: Int): String

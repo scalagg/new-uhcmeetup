@@ -3,6 +3,7 @@ package gg.scala.meetup.game.runnable
 import gg.scala.meetup.game.handler.BorderHandler
 import io.papermc.lib.PaperLib
 import me.lucko.helper.scheduler.threadlock.ServerThreadLock
+import net.evilblock.cubed.util.bukkit.Tasks
 import net.minecraft.server.v1_8_R3.BiomeBase
 import org.bukkit.*
 import org.bukkit.block.Biome
@@ -100,8 +101,9 @@ object UhcMeetupWorldGenerationRunnable
 
                                 try
                                 {
-                                    ServerThreadLock.obtain()
-                                        .use { location.world.loadChunk(x, z) }
+                                    Tasks.sync {
+                                        location.world.loadChunk(x, z)
+                                    }
                                 } catch (exception: Exception)
                                 {
                                     Logger.getGlobal()

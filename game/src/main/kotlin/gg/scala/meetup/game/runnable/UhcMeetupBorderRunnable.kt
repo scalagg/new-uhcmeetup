@@ -42,7 +42,7 @@ object UhcMeetupBorderRunnable : BukkitRunnable()
             BorderHandler.currentBorderTime = 120
         } else if (TICKS.contains(BorderHandler.currentBorderTime))
         {
-            CgsGameEngine.INSTANCE.broadcast(
+            CgsGameEngine.INSTANCE.sendMessage(
                 "${CC.SEC}The border will shrink to ${CC.WHITE}${BorderHandler.getNextBorder()}${CC.SEC} blocks in ${CC.PRI}${
                     TimeUtil.formatIntoDetailedString(BorderHandler.currentBorderTime)
                 }${CC.SEC}!"

@@ -83,7 +83,7 @@ object TimeBombGameScenario : GameScenario
                 )
 
                 CgsGameEngine.INSTANCE
-                    .broadcast("${player.name}'s ${CC.SEC}corpse has exploded!")
+                    .sendMessage("${player.name}'s ${CC.SEC}corpse has exploded!")
             }
         }
     }

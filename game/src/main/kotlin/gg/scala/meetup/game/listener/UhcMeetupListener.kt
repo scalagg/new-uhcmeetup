@@ -1,16 +1,16 @@
 package gg.scala.meetup.game.listener
 
 import gg.scala.cgs.common.CgsGameEngine
-import gg.scala.cgs.common.CgsGameState
 import gg.scala.cgs.common.player.handler.CgsPlayerHandler
+import gg.scala.cgs.common.states.CgsGameState
 import gg.scala.meetup.game.UhcMeetupEngine
-import gg.scala.meetup.game.handler.BorderHandler
 import gg.scala.meetup.game.loadout.UhcMeetupExtendedLoadoutHandler
 import gg.scala.meetup.game.runnable.UhcMeetupBorderRunnable
 import gg.scala.meetup.game.scenario.impl.TimeBombGameScenario
 import gg.scala.meetup.game.sit
 import gg.scala.meetup.game.teleportToRandomLocationWithinArena
 import net.evilblock.cubed.util.CC
+import net.evilblock.cubed.util.bukkit.Tasks
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -135,9 +135,26 @@ object UhcMeetupListener : Listener
             event.participant.teleportToRandomLocationWithinArena()
             event.participant sit true
 
-            UhcMeetupExtendedLoadoutHandler
-                .handleInventory(event.participant)
+            Tasks.delayed(1L)
+            {
+                UhcMeetupExtendedLoadoutHandler
+                    .handleInventory(event.participant)
+            }
         }
+    }
+
+    @EventHandler(
+        priority = EventPriority.LOWEST,
+        ignoreCancelled = true
+    )
+    fun onParticipantReinstate(
+        event: CgsGameEngine.CgsGameParticipantReinstateEvent
+    )
+    {
+        event.participant.teleportToRandomLocationWithinArena()
+
+        UhcMeetupExtendedLoadoutHandler
+            .handleInventory(event.participant)
     }
 
     @EventHandler(

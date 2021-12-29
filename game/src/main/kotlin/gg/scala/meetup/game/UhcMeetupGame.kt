@@ -12,7 +12,6 @@ import gg.scala.meetup.game.scenario.impl.TimeBombGameScenario
 import gg.scala.meetup.shared.UhcMeetupCgsInfo
 import gg.scala.meetup.shared.UhcMeetupCgsStatistics
 import gg.scala.meetup.shared.gamemode.UhcMeetupSoloGameMode
-import me.lucko.helper.Events
 import net.evilblock.cubed.util.bukkit.Tasks
 import org.bukkit.Bukkit
 
@@ -52,18 +51,6 @@ class UhcMeetupGame : ExtendedScalaPlugin()
 
         UhcMeetupEngine.INSTANCE = engine
         CgsGameArenaHandler.world = Bukkit.getWorld("meetup")
-
-        // TEMPORARY
-        Tasks.asyncTimer({
-            Lemon.instance.localInstance
-                .metaData["game-state"] = CgsGameEngine.INSTANCE.gameState
-                .name.replace("STARTED", "IN_GAME")
-
-            Lemon.instance.localInstance
-                .metaData["remaining"] = Bukkit.getOnlinePlayers()
-                .count { !it.hasMetadata("spectator") }.toString()
-        }, 0L, 20L)
-        // TEMPORARY
 
         BorderHandler.setBorder(100)
     }
