@@ -1,6 +1,7 @@
 package gg.scala.meetup.game
 
 import gg.scala.cgs.common.CgsGameEngine
+import gg.scala.meetup.game.handler.BorderHandler
 import net.minecraft.server.v1_8_R3.EntityBat
 import net.minecraft.server.v1_8_R3.PacketPlayOutAttachEntity
 import net.minecraft.server.v1_8_R3.PacketPlayOutEntityDestroy
@@ -25,8 +26,8 @@ fun Player.teleportToRandomLocationWithinArena()
 
 fun getRandomSpawnLocation(): Location
 {
-    val x = Random.nextInt(100 * 2) - 100
-    val z = Random.nextInt(100 * 2) - 100
+    val x = Random.nextInt(100 * 2) - BorderHandler.currentBorder
+    val z = Random.nextInt(100 * 2) - BorderHandler.currentBorder
 
     val world = Bukkit.getWorld("meetup")
 
