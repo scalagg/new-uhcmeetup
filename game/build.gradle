@@ -2,5 +2,7 @@ dependencies {
     compileOnly fileTree("library")
     implementation project(":shared")
 
+    kapt "me.lucko:helper:5.6.9"
+
     implementation "io.papermc:paperlib:1.0.6"
 }

@@ -4,7 +4,6 @@ import gg.scala.cgs.common.player.statistic.GameSpecificStatistics
 import gg.scala.cgs.common.player.statistic.value.CgsGameStatistic
 import gg.scala.meetup.shared.loadout.UhcMeetupLoadout
 import gg.scala.meetup.shared.tickable.TickableBukkitRunnable
-import org.bukkit.scheduler.BukkitRunnable
 
 /**
  * @author GrowlyX

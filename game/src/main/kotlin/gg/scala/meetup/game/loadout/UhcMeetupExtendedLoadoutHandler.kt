@@ -84,7 +84,7 @@ object UhcMeetupExtendedLoadoutHandler
         val head = TimeBombGameScenario.GOLDEN_HEAD
         val loadout = statistics.loadout
 
-        head.amount = Random.nextInt(3) + Random.nextInt(2)
+        head.amount = Random.nextInt(1, 3)
 
         inventory.setItem(loadout.getLocationOf(Material.DIAMOND_SWORD), sword)
         inventory.setItem(loadout.getLocationOf(Material.FISHING_ROD), ItemStack(Material.FISHING_ROD))
