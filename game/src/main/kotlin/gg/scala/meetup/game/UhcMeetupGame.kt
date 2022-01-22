@@ -1,6 +1,7 @@
 package gg.scala.meetup.game
 
 import gg.scala.cgs.common.information.arena.CgsGameArenaHandler
+import gg.scala.cloudsync.discovery.CloudSyncDiscoveryService
 import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.meetup.game.handler.BorderHandler
 import gg.scala.meetup.game.listener.UhcMeetupListener
@@ -42,7 +43,7 @@ class UhcMeetupGame : ExtendedScalaPlugin()
             this, UhcMeetupCgsInfo,
             UhcMeetupSoloGameMode
         )
-        engine.statisticType = UhcMeetupCgsStatistics::class
+
         engine.initialLoad()
 
         server.pluginManager.registerEvents(
@@ -60,6 +61,10 @@ class UhcMeetupGame : ExtendedScalaPlugin()
 
         UhcMeetupEngine.INSTANCE = engine
         CgsGameArenaHandler.world = Bukkit.getWorld("meetup")
+
+        CloudSyncDiscoveryService
+            .discoverable.assets
+            .add("gg.scala.meetup:game:uhc-meetup-game")
 
         BorderHandler.setBorder(100)
     }

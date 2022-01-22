@@ -24,7 +24,7 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
 {
     override fun getTitle() = "${CC.B_PRI}UHC Meetup"
 
-    var remaining = 0
+    private var remaining = 0
 
     init
     {
@@ -56,7 +56,7 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
                 }")
             } else if (state == CgsGameState.STARTING)
             {
-                lines.add("Starting in ${CC.GREEN}${TimeUtil.formatIntoAbbreviatedString(StartingStateRunnable.startingTime)}")
+                lines.add("Starting in ${CC.GREEN}${TimeUtil.formatIntoAbbreviatedString(StartingStateRunnable.PRE_START_TIME)}")
             }
 
             lines.add("")
@@ -89,7 +89,7 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
         }
 
         lines.add("")
-        lines.add("${CC.GREEN}scala.gg")
+        lines.add("${CC.AQUA}www.verio.cc")
         lines.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------")
     }
 

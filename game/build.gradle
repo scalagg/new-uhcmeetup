@@ -1,8 +1,10 @@
+repositories {
+    maven { url "https://papermc.io/repo/repository/maven-public/" }
+}
+
 dependencies {
-    compileOnly fileTree("library")
     implementation project(":shared")
+    compileOnly "io.papermc:paperlib:1.0.7"
 
-    kapt "me.lucko:helper:5.6.9"
-
-    implementation "io.papermc:paperlib:1.0.6"
+    compileOnly 'gg.scala.cgs:game:1.0.4'
 }
