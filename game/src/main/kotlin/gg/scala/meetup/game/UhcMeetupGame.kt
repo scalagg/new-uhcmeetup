@@ -1,7 +1,7 @@
 package gg.scala.meetup.game
 
 import gg.scala.cgs.common.information.arena.CgsGameArenaHandler
-import gg.scala.cloudsync.discovery.CloudSyncDiscoveryService
+import gg.scala.cloudsync.shared.discovery.CloudSyncDiscoveryService
 import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.meetup.game.handler.BorderHandler
 import gg.scala.meetup.game.listener.UhcMeetupListener
