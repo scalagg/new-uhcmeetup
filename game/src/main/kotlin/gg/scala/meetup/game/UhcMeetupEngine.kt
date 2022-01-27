@@ -22,7 +22,8 @@ class UhcMeetupEngine(
     gameInfo: CgsGameGeneralInfo,
     gameMode: CgsGameMode
 ) : CgsGameEngine<UhcMeetupCgsStatistics>(
-    plugin, gameInfo, gameMode
+    plugin, gameInfo, gameMode,
+    UhcMeetupCgsStatistics::class
 )
 {
     companion object

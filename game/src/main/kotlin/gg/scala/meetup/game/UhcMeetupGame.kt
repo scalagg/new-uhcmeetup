@@ -25,7 +25,7 @@ import org.bukkit.Bukkit
         PluginDependency("Cubed"),
         PluginDependency("helper"),
         PluginDependency("Lemon"),
-        PluginDependency("cgs-engine"),
+        PluginDependency("CGS-Engine"),
         PluginDependency("Grape")
     ]
 )
