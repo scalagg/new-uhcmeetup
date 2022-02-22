@@ -3,6 +3,7 @@ package gg.scala.meetup.game
 import gg.scala.cgs.common.CgsGameEngine
 import gg.scala.cgs.common.information.CgsGameGeneralInfo
 import gg.scala.cgs.common.information.mode.CgsGameMode
+import gg.scala.cgs.common.snapshot.CgsGameSnapshot
 import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.lemon.util.CubedCacheUtil
 import gg.scala.meetup.game.listener.UhcMeetupListener
@@ -36,19 +37,25 @@ class UhcMeetupEngine(
     override fun getVisibilityAdapter() = UhcMeetupVisibilityAdapter
     override fun getNametagAdapter() = UhcMeetupNametagAdapter
 
-    override fun getExtraWinInformation(): List<String>
+    override fun getGameSnapshot(): CgsGameSnapshot
     {
-        val topKills = mutableListOf<String>()
-
-        val sortedKills = UhcMeetupListener.killsTracker
-            .entries.sortedByDescending { it.value }
-
-        for (i in 0 until 3.coerceAtMost(sortedKills.size))
+        return object : CgsGameSnapshot
         {
-            val (key, value) = sortedKills[i]
-            topKills.add("  ${CC.YELLOW}#$i ${CC.GRAY}- ${CC.WHITE}${CubedCacheUtil.fetchName(key)}${CC.GRAY} - ${CC.PRI}$value")
-        }
+            override fun getExtraInformation(): List<String>
+            {
+                val topKills = mutableListOf<String>()
 
-        return topKills
+                val sortedKills = UhcMeetupListener.killsTracker
+                    .entries.sortedByDescending { it.value }
+
+                for (i in 0 until 3.coerceAtMost(sortedKills.size))
+                {
+                    val (key, value) = sortedKills[i]
+                    topKills.add("  ${CC.YELLOW}#$i ${CC.GRAY}- ${CC.WHITE}${CubedCacheUtil.fetchName(key)}${CC.GRAY} - ${CC.PRI}$value")
+                }
+
+                return topKills
+            }
+        }
     }
 }
