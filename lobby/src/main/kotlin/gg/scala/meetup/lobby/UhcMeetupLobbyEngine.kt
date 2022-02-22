@@ -45,7 +45,7 @@ object UhcMeetupLobbyEngine : CgsGameLobby<UhcMeetupCgsStatistics>(
                     info.gameServerInfo!!.arenaId
                 }",
                 "${CC.SEC}Mode: ${CC.PRI}${
-                    info.gameServerInfo!!.gameMode
+                    info.gameServerInfo!!.gameMode.capitalize()
                 }",
                 "",
                 "${CC.GREEN}Click to spectate!"

@@ -41,29 +41,25 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
 
         if (state == CgsGameState.WAITING || state == CgsGameState.STARTING)
         {
-            lines.add("Players: ${CC.GREEN}${
+            if (state == CgsGameState.WAITING)
+            {
+                lines.add("Waiting for players...")
+            } else if (state == CgsGameState.STARTING)
+            {
+                lines.add("Starting in ${CC.PRI}${TimeUtil.formatIntoAbbreviatedString(StartingStateRunnable.PRE_START_TIME)}")
+            }
+
+            lines.add("")
+            lines.add("Players: ${CC.PRI}${
                 Bukkit.getOnlinePlayers().size
             }/${
                 Bukkit.getMaxPlayers()
             }")
-
             lines.add("")
-
-            if (state == CgsGameState.WAITING)
-            {
-                lines.add("Waiting${
-                    CgsEnginePlugin.LOADING_STRING
-                }")
-            } else if (state == CgsGameState.STARTING)
-            {
-                lines.add("Starting in ${CC.GREEN}${TimeUtil.formatIntoAbbreviatedString(StartingStateRunnable.PRE_START_TIME)}")
-            }
-
-            lines.add("")
-            lines.add("Mode: ${CC.GREEN}${
+            lines.add("Mode: ${CC.PRI}${
                 CgsGameEngine.INSTANCE.gameMode.getName()
             }")
-            lines.add("Version: ${CC.GRAY}${
+            lines.add("Version: ${CC.PRI}${
                 CgsGameEngine.INSTANCE.gameInfo.gameVersion
             }")
         } else if (state.isAfter(CgsGameState.STARTED))
@@ -73,18 +69,18 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
             val statistics = UhcMeetupEngine.INSTANCE
                 .getStatistics(cgsGamePlayer)
 
-            lines.add("Border: " + CC.GREEN + BorderHandler.currentBorder + BorderHandler.getFormattedBorderStatus())
+            lines.add("Border: " + CC.PRI + BorderHandler.currentBorder + CC.GRAY + BorderHandler.getFormattedBorderStatus())
             lines.add(
-                "Remaining: " + CC.GREEN + remaining + "/" + CgsGameEngine.INSTANCE.originalRemaining
+                "Remaining: " + CC.PRI + remaining + "/" + CgsGameEngine.INSTANCE.originalRemaining.size
             )
             lines.add("Ping: " + CC.PRI + getFormattedPing(getPing(player)))
-            lines.add("Kills: " + CC.GREEN + statistics.gameKills.value)
+            lines.add("Kills: " + CC.PRI + statistics.gameKills.value)
 
             if (statistics.noCleanTimer != null)
             {
                 lines.add("")
-                lines.add(CC.PRI + "Cooldowns:")
-                lines.add(CC.GRAY + " " + CC.WHITE + "No Clean " + CC.GRAY + "(" + statistics.noCleanTimer!!.ticks + ")")
+                lines.add(CC.D_AQUA + "Cooldowns:")
+                lines.add(" No Clean " + CC.PRI + "(" + statistics.noCleanTimer!!.ticks + ")")
             }
         }
 

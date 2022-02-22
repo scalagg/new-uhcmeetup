@@ -1,5 +1,6 @@
 package gg.scala.meetup.lobby
 
+import gg.scala.cgs.lobby.gamemode.CgsGameLobby
 import gg.scala.commons.ExtendedScalaPlugin
 import me.lucko.helper.plugin.ap.Plugin
 import me.lucko.helper.plugin.ap.PluginDependency
@@ -14,19 +15,13 @@ import me.lucko.helper.plugin.ap.PluginDependency
         PluginDependency("Cubed"),
         PluginDependency("helper"),
         PluginDependency("Lemon"),
-        PluginDependency("CGS-Lobby"),
-        PluginDependency("Grape")
+        PluginDependency("CGS-Lobby")
     ]
 )
 class UhcMeetupLobby : ExtendedScalaPlugin()
 {
     override fun enable()
     {
-
-    }
-
-    override fun disable()
-    {
-
+        CgsGameLobby.INSTANCE = UhcMeetupLobbyEngine
     }
 }

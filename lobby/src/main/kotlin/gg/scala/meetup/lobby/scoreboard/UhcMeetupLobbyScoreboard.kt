@@ -19,17 +19,17 @@ object UhcMeetupLobbyScoreboard : ScoreboardAdapter()
     )
     {
         board.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------")
-        board.add("In game: ${CC.PRI}${CgsGameInfoUpdater.playingTotalCount}")
-        board.add("In lobbies: ${CC.PRI}${CgsGameInfoUpdater.playingTotalCount}")
+        board.add("In Game: ${CC.PRI}${CgsGameInfoUpdater.playingTotalCount}")
+        board.add("In Lobby: ${CC.PRI}${CgsGameInfoUpdater.lobbyTotalCount}")
         board.add("")
 
         for (gameMode in UhcMeetupCgsInfo.gameModes)
         {
             board.add("${CC.D_AQUA}${gameMode.getName()}:")
-            board.add(" In game: ${CC.PRI}${CgsGameInfoUpdater.gameModeCounts[gameMode.getId()]}")
+            board.add(" In Game: ${CC.PRI}${CgsGameInfoUpdater.gameModeCounts[gameMode.getId()]}")
+            board.add("")
         }
 
-        board.add("")
         board.add("${CC.PRI}www.verio.cc")
         board.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------")
     }
