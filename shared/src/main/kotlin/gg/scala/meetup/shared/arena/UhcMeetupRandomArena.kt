@@ -5,7 +5,6 @@ import org.bukkit.Bukkit
 import org.bukkit.Location
 import org.bukkit.Material
 import java.nio.file.Path
-import java.nio.file.Paths
 
 /**
  * @author GrowlyX
@@ -25,9 +24,7 @@ object UhcMeetupRandomArena : CgsGameArena
 
     override fun getPreLobbyLocation() = Location(
         Bukkit.getWorld("world"),
-        0.5, Bukkit.getWorld("world")
-            .getHighestBlockYAt(0, 0) + 5.0,
-        0.5
+        0.5, 35.0, 0.5
     )
 
     override fun getSpectatorLocation() = Location(
