@@ -4,6 +4,7 @@ import gg.scala.cgs.common.player.statistic.GameSpecificStatistics
 import gg.scala.cgs.common.player.statistic.value.CgsGameStatistic
 import gg.scala.meetup.shared.loadout.UhcMeetupLoadout
 import gg.scala.meetup.shared.tickable.TickableBukkitRunnable
+import java.lang.reflect.Type
 
 /**
  * @author GrowlyX
@@ -31,5 +32,10 @@ constructor(
         {
             loadout.resetAndApplyDefault()
         }
+    }
+
+    override fun getAbstractType(): Type
+    {
+        return UhcMeetupCgsStatistics::class.java
     }
 }
