@@ -1,6 +1,8 @@
 package gg.scala.meetup.lobby.scoreboard
 
+import gg.scala.cgs.common.player.handler.CgsPlayerHandler
 import gg.scala.cgs.lobby.updater.CgsGameInfoUpdater
+import gg.scala.meetup.lobby.UhcMeetupLobbyEngine
 import gg.scala.meetup.shared.UhcMeetupCgsInfo
 import net.evilblock.cubed.scoreboard.ScoreboardAdapter
 import net.evilblock.cubed.util.CC
@@ -21,14 +23,25 @@ object UhcMeetupLobbyScoreboard : ScoreboardAdapter()
         board.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------")
         board.add("In Game: ${CC.PRI}${CgsGameInfoUpdater.playingTotalCount}")
         board.add("In Lobby: ${CC.PRI}${CgsGameInfoUpdater.lobbyTotalCount}")
+
         board.add("")
 
-        for (gameMode in UhcMeetupCgsInfo.gameModes)
+        val cgsPlayer = CgsPlayerHandler.find(player)
+
+        if (cgsPlayer != null)
         {
-            board.add("${CC.D_AQUA}${gameMode.getName()}:")
-            board.add(" In Game: ${CC.PRI}${CgsGameInfoUpdater.gameModeCounts[gameMode.getId()]}")
+            val statistics = UhcMeetupLobbyEngine
+                .getStatistics(cgsPlayer)
+
+            board.add("${CC.D_AQUA}Statistics:")
+            board.add(" Wins: ${CC.PRI}${statistics.wins.value}")
+            board.add(" Losses: ${CC.PRI}${statistics.losses.value}")
             board.add("")
         }
+
+        board.add("${CC.D_AQUA}Global:")
+        board.add(" Your coins: ${CC.GOLD}0")
+        board.add("")
 
         board.add("${CC.PRI}www.verio.cc")
         board.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------")

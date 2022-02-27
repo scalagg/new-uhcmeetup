@@ -22,6 +22,6 @@ object UhcMeetupSoloGameMode : CgsGameMode
         UhcMeetupRandomArena
     )
 
-    override fun getTeamSize() = 1
-    override fun getMaxTeams() = 32
+    override fun getTeamSize() = 1 // team size
+    override fun getMaxTeams() = 32 // max teams
 }
