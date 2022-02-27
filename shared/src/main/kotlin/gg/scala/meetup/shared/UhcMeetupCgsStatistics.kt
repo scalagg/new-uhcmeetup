@@ -20,7 +20,9 @@ constructor(
     override var losses: CgsGameStatistic = CgsGameStatistic()
 ) : GameSpecificStatistics()
 {
+    @Transient
     var noCleanTimer: TickableBukkitRunnable? = null
+
     val loadout = UhcMeetupLoadout()
 
     init

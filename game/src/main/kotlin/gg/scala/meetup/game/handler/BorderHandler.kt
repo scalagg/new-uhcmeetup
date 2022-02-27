@@ -27,7 +27,7 @@ object BorderHandler
 
     fun getFormattedBorderStatus(): String
     {
-        return if (this.currentBorderTime > 0) CC.GRAY + " (" + this.currentBorderTime + ")" else ""
+        return if (this.currentBorderTime > 0) CC.GRAY + " (" + this.currentBorderTime + "s)" else ""
     }
 
     fun setBorder(border: Int)

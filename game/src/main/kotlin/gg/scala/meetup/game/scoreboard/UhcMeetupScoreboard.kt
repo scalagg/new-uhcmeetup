@@ -37,7 +37,10 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
 
     override fun render(lines: LinkedList<String>, player: Player, state: CgsGameState)
     {
-        lines.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------")
+        lines.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------${
+            if (state.isAfter(CgsGameState.STARTED))
+                "--" else ""
+        }")
 
         if (state == CgsGameState.WAITING || state == CgsGameState.STARTING)
         {
@@ -86,23 +89,26 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
 
         lines.add("")
         lines.add("${CC.AQUA}www.verio.cc")
-        lines.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------")
+        lines.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------${
+            if (state.isAfter(CgsGameState.STARTED))
+                "--" else ""
+        }")
     }
 
     private fun getFormattedPing(ping: Int): String
     {
         return if (ping > 300)
         {
-            CC.D_RED + ping + " ms"
+            CC.D_RED + ping + "ms"
         } else if (ping > 150)
         {
-            CC.PRI + ping + " ms"
+            CC.PRI + ping + "ms"
         } else if (ping > 80)
         {
-            CC.YELLOW + ping + " ms"
+            CC.YELLOW + ping + "ms"
         } else
         {
-            CC.GREEN + ping + " ms"
+            CC.GREEN + ping + "ms"
         }
     }
 }
