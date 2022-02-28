@@ -1,6 +1,7 @@
 package gg.scala.meetup.game
 
 import gg.scala.cgs.common.information.arena.CgsGameArenaHandler
+import gg.scala.cgs.common.information.mode.CgsGameMode
 import gg.scala.cloudsync.shared.discovery.CloudSyncDiscoveryService
 import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.meetup.game.handler.BorderHandler
@@ -9,7 +10,6 @@ import gg.scala.meetup.game.runnable.UhcMeetupWorldGenerationRunnable
 import gg.scala.meetup.game.scenario.impl.NoCleanGameScenario
 import gg.scala.meetup.game.scenario.impl.TimeBombGameScenario
 import gg.scala.meetup.shared.UhcMeetupCgsInfo
-import gg.scala.meetup.shared.UhcMeetupCgsStatistics
 import gg.scala.meetup.shared.gamemode.UhcMeetupSoloGameMode
 import me.lucko.helper.plugin.ap.Plugin
 import me.lucko.helper.plugin.ap.PluginDependency
@@ -39,9 +39,20 @@ class UhcMeetupGame : ExtendedScalaPlugin()
             UhcMeetupSoloGameMode
         )
 
+        val orchestration =
+            loadConfigNode("orchestration.yml")
+
+        val mode = orchestration.getString("mode")
+            ?: "gg.scala.meetup.shared.gamemode.UhcMeetupSoloGameMode"
+
+        val modeClass = Class.forName(mode)
+
+        val modeClassObject = modeClass
+            .kotlin.objectInstance!!
+
         val engine = UhcMeetupEngine(
             this, UhcMeetupCgsInfo,
-            UhcMeetupSoloGameMode
+            modeClassObject as CgsGameMode
         )
 
         engine.initialLoad()
