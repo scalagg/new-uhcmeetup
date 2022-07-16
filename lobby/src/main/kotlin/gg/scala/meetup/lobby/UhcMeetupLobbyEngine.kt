@@ -11,6 +11,9 @@ import gg.scala.meetup.lobby.ranking.TopWinsRankingEntry
 import gg.scala.meetup.lobby.scoreboard.UhcMeetupLobbyScoreboard
 import gg.scala.meetup.shared.UhcMeetupCgsInfo
 import gg.scala.meetup.shared.UhcMeetupCgsStatistics
+import gg.scala.meetup.shared.gamemode.UhcMeetupDuosGameMode
+import gg.scala.meetup.shared.gamemode.UhcMeetupSoloGameMode
+import gg.scala.meetup.shared.gamemode.UhcMeetupTriosGameMode
 import net.evilblock.cubed.menu.Button
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
@@ -71,7 +74,7 @@ object UhcMeetupLobbyEngine : CgsGameLobby<UhcMeetupCgsStatistics>(
             .toButton { player, _ ->
                 val server = CgsGameInfoUpdater
                     .findAvailableServer(
-                        "solo", "UHC Meetup"
+                        UhcMeetupSoloGameMode, "UHC Meetup"
                     )
 
                 if (server != null)
@@ -96,7 +99,7 @@ object UhcMeetupLobbyEngine : CgsGameLobby<UhcMeetupCgsStatistics>(
             .toButton { player, _ ->
                 val server = CgsGameInfoUpdater
                     .findAvailableServer(
-                        "duos", "UHC Meetup"
+                        UhcMeetupDuosGameMode, "UHC Meetup"
                     )
 
                 if (server != null)
@@ -121,7 +124,7 @@ object UhcMeetupLobbyEngine : CgsGameLobby<UhcMeetupCgsStatistics>(
             .toButton { player, _ ->
                 val server = CgsGameInfoUpdater
                     .findAvailableServer(
-                        "trios", "UHC Meetup"
+                        UhcMeetupTriosGameMode, "UHC Meetup"
                     )
 
                 if (server != null)

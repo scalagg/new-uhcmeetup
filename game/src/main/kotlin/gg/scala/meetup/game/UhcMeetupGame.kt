@@ -4,6 +4,7 @@ import gg.scala.cgs.common.information.arena.CgsGameArenaHandler
 import gg.scala.cgs.common.information.mode.CgsGameMode
 import gg.scala.cloudsync.shared.discovery.CloudSyncDiscoveryService
 import gg.scala.commons.ExtendedScalaPlugin
+import gg.scala.commons.annotations.container.ContainerEnable
 import gg.scala.meetup.game.handler.BorderHandler
 import gg.scala.meetup.game.listener.UhcMeetupListener
 import gg.scala.meetup.game.runnable.UhcMeetupWorldGenerationRunnable
@@ -22,8 +23,7 @@ import org.bukkit.Bukkit
 @Plugin(
     name = "UHCMeetup",
     depends = [
-        PluginDependency("Cubed"),
-        PluginDependency("helper"),
+        PluginDependency("scala-commons"),
         PluginDependency("Lemon"),
         PluginDependency("CGS-Engine"),
         PluginDependency("Grape")
@@ -31,11 +31,12 @@ import org.bukkit.Bukkit
 )
 class UhcMeetupGame : ExtendedScalaPlugin()
 {
-    override fun enable()
+    @ContainerEnable
+    fun containerEnable()
     {
         UhcMeetupWorldGenerationRunnable.initialLoad()
 
-        CgsGameArenaHandler.initialLoad(
+        CgsGameArenaHandler.configure(
             UhcMeetupSoloGameMode
         )
 
