@@ -40,7 +40,7 @@ class UhcMeetupGame : ExtendedScalaPlugin()
         )
 
         val orchestration =
-            loadConfigNode("orchestration.yml")
+            loadConfig("orchestration.yml")
 
         val mode = orchestration.getString("mode")
             ?: "gg.scala.meetup.shared.gamemode.UhcMeetupSoloGameMode"
@@ -48,7 +48,8 @@ class UhcMeetupGame : ExtendedScalaPlugin()
         val modeClass = Class.forName(mode)
 
         val modeClassObject = modeClass
-            .kotlin.objectInstance!!
+            .getField("INSTANCE")
+            .get(null)
 
         val engine = UhcMeetupEngine(
             this, UhcMeetupCgsInfo,
