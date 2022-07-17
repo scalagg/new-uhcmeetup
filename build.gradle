@@ -60,7 +60,7 @@ subprojects {
         compileOnly "org.jetbrains.kotlin:kotlin-stdlib"
 
         compileOnly "gg.scala.lemon:bukkit:1.2.1"
-        compileOnly "gg.scala.cgs:common:1.1.3"
+        compileOnly "gg.scala.cgs:common:1.1.3.1"
         compileOnly "gg.scala.spigot:sspigot-server:1.0.8"
 
         compileOnly "gg.scala.flavor:flavor:0.1.3.7"
@@ -89,26 +89,31 @@ subprojects {
 
         archiveFileName = "uhc-meetup-${project.name}.jar"
     }
-}
 
-publishing {
-    publications {
-        shadow(MavenPublication) { publication ->
-            project.shadow.component(publication)
+    publishing {
+        publications {
+            shadow(MavenPublication) { publication ->
+                project.shadow.component(publication)
+            }
         }
-    }
 
-    repositories {
-        maven {
-            name "Scala"
-            url "${environmental("artifactory_contextUrl")}/gradle-release"
+        repositories {
+            maven {
+                name "Scala"
+                url "${environmental("artifactory_contextUrl")}/gradle-release"
 
-            credentials {
-                username environmental("artifactory_user")
-                password environmental("artifactory_password")
+                credentials {
+                    username environmental("artifactory_user")
+                    password environmental("artifactory_password")
+                }
             }
         }
     }
+
+    tasks.build.dependsOn(
+        shadowJar,
+        publishShadowPublicationToScalaRepository
+    )
 }
 
 artifactory {
@@ -123,8 +128,3 @@ artifactory {
         }
     }
 }
-
-tasks.build.dependsOn(
-    shadowJar,
-    publishShadowPublicationToScalaRepository
-)

@@ -6,6 +6,7 @@ import gg.scala.cgs.common.player.scoreboard.CgsGameScoreboardRenderer
 import gg.scala.cgs.common.runnable.state.StartingStateRunnable
 import gg.scala.cgs.common.states.CgsGameState
 import gg.scala.cgs.game.CgsEnginePlugin
+import gg.scala.lemon.LemonConstants
 import gg.scala.meetup.game.UhcMeetupEngine
 import gg.scala.meetup.game.handler.BorderHandler
 import net.evilblock.cubed.util.CC
@@ -88,7 +89,7 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
         }
 
         lines.add("")
-        lines.add("${CC.AQUA}www.verio.cc")
+        lines.add("${CC.PRI}${LemonConstants.WEB_LINK}")
         lines.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------${
             if (state.isAfter(CgsGameState.STARTED))
                 "--" else ""

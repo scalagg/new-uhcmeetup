@@ -11,7 +11,7 @@ import gg.scala.meetup.shared.gamemode.UhcMeetupTriosGameMode
  */
 object UhcMeetupCgsInfo : CgsGameGeneralInfo(
     "UHC Meetup", 0.01F, 5,
-    61, UhcMeetupCgsAwards, true,
+    61, UhcMeetupCgsAwards, true, true,
     true, false, true,
     true, listOf(
         UhcMeetupSoloGameMode,

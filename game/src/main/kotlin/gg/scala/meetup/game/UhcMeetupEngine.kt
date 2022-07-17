@@ -1,9 +1,13 @@
 package gg.scala.meetup.game
 
+import com.cryptomorin.xseries.XMaterial
 import gg.scala.cgs.common.CgsGameEngine
 import gg.scala.cgs.common.information.CgsGameGeneralInfo
 import gg.scala.cgs.common.information.mode.CgsGameMode
 import gg.scala.cgs.common.snapshot.CgsGameSnapshot
+import gg.scala.cgs.common.voting.VotingMapConfiguration
+import gg.scala.cgs.common.voting.VotingMapEntry
+import gg.scala.cgs.common.voting.selection.VoteSelectionType
 import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.lemon.util.CubedCacheUtil
 import gg.scala.meetup.game.listener.UhcMeetupListener
@@ -12,6 +16,7 @@ import gg.scala.meetup.game.scoreboard.UhcMeetupScoreboard
 import gg.scala.meetup.game.visibility.UhcMeetupVisibilityAdapter
 import gg.scala.meetup.shared.UhcMeetupCgsStatistics
 import net.evilblock.cubed.util.CC
+import java.time.Duration
 import kotlin.properties.Delegates
 
 /**
@@ -36,6 +41,28 @@ class UhcMeetupEngine(
     override fun getScoreboardRenderer() = UhcMeetupScoreboard
     override fun getVisibilityAdapter() = UhcMeetupVisibilityAdapter
     override fun getNametagAdapter() = UhcMeetupNametagAdapter
+
+    override fun getVotingConfig(): VotingMapConfiguration
+    {
+        return object : VotingMapConfiguration
+        {
+            override val minimumPlayersForVotingStart = 1
+
+            override val selectionType: VoteSelectionType =
+                VoteSelectionType.GUI
+
+            override val votingAutoCloseDuration =
+                Duration.ofMinutes(1L)
+
+            override fun entries(): List<VotingMapEntry>
+            {
+                return listOf(
+                    VotingMapEntry("hors", XMaterial.NETHER_BRICK, "hrosiee", "xyz"),
+                    VotingMapEntry("hors2", XMaterial.NETHERRACK, "hrosiee2", "xyz2"),
+                )
+            }
+        }
+    }
 
     override fun getGameSnapshot(): CgsGameSnapshot
     {
