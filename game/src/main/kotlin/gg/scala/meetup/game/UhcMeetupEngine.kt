@@ -42,27 +42,6 @@ class UhcMeetupEngine(
     override fun getVisibilityAdapter() = UhcMeetupVisibilityAdapter
     override fun getNametagAdapter() = UhcMeetupNametagAdapter
 
-    override fun getVotingConfig(): VotingMapConfiguration
-    {
-        return object : VotingMapConfiguration
-        {
-            override val minimumPlayersForVotingStart = 1
-
-            override val selectionType: VoteSelectionType =
-                VoteSelectionType.GUI
-
-            override val votingAutoCloseDuration =
-                Duration.ofMinutes(1L)
-
-            override fun entries(): List<VotingMapEntry>
-            {
-                return listOf(
-                    VotingMapEntry("hors", XMaterial.NETHER_BRICK, "hrosiee", "xyz"),
-                    VotingMapEntry("hors2", XMaterial.NETHERRACK, "hrosiee2", "xyz2"),
-                )
-            }
-        }
-    }
 
     override fun getGameSnapshot(): CgsGameSnapshot
     {
