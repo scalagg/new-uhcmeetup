@@ -27,7 +27,7 @@ object BorderHandler
 
     fun getFormattedBorderStatus(): String
     {
-        return if (this.currentBorderTime > 0) CC.GRAY + " (" + TimeUtil.formatIntoMMSS(this.currentBorderTime) + ")" else ""
+        return if (this.currentBorderTime > 0) CC.D_GRAY + " (" + TimeUtil.formatIntoMMSS(this.currentBorderTime) + ")" else ""
     }
 
     fun setBorder(border: Int)
