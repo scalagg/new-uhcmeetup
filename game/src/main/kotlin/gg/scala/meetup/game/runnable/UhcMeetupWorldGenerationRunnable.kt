@@ -1,7 +1,6 @@
 package gg.scala.meetup.game.runnable
 
 import gg.scala.meetup.game.handler.BorderHandler
-import io.papermc.lib.PaperLib
 import me.lucko.helper.scheduler.threadlock.ServerThreadLock
 import net.evilblock.cubed.util.bukkit.Tasks
 import net.minecraft.server.v1_8_R3.BiomeBase
@@ -92,29 +91,28 @@ object UhcMeetupWorldGenerationRunnable
                 )
                 if (!location.chunk.isLoaded)
                 {
-                    PaperLib.getChunkAtAsync(location)
-                        .whenComplete { chunk: Chunk, throwable: Throwable? ->
-                            if (throwable != null)
-                            {
-                                Logger.getGlobal()
-                                    .info("Failed to load chunk async, fallbacking to sync loading. (" + throwable.message + ")")
+                    Bukkit.getWorld("meetup").getChunkAtAsync(location) { chunk ->
+                        if (chunk == null)
+                        {
+                            Logger.getGlobal()
+                                .info("Failed to load chunk async, fallbacking to sync loading.")
 
-                                try
-                                {
-                                    Tasks.sync {
-                                        location.world.loadChunk(x, z)
-                                    }
-                                } catch (exception: Exception)
-                                {
-                                    Logger.getGlobal()
-                                        .info("Failed to load chunk sync. (" + exception.message + ")")
+                            try
+                            {
+                                Tasks.sync {
+                                    location.world.loadChunk(x, z)
                                 }
-                            } else
+                            } catch (exception: Exception)
                             {
                                 Logger.getGlobal()
-                                    .info("Loaded chunk at " + chunk.x + ", " + chunk.z + ".")
+                                    .info("Failed to load chunk sync. (" + exception.message + ")")
                             }
+                        } else
+                        {
+                            Logger.getGlobal()
+                                .info("Loaded chunk at " + chunk.x + ", " + chunk.z + ".")
                         }
+                    }
                 }
             }
         }

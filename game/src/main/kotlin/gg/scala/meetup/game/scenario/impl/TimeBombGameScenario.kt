@@ -1,6 +1,7 @@
 package gg.scala.meetup.game.scenario.impl
 
 import gg.scala.cgs.common.CgsGameEngine
+import gg.scala.commons.annotations.Listeners
 import gg.scala.meetup.game.scenario.GameScenario
 import net.evilblock.cubed.util.CC
 import net.evilblock.cubed.util.bukkit.ItemBuilder
@@ -8,6 +9,7 @@ import org.bukkit.Location
 import org.bukkit.Material
 import org.bukkit.block.Chest
 import org.bukkit.entity.Player
+import org.bukkit.event.Listener
 import org.bukkit.inventory.ItemStack
 import org.bukkit.scheduler.BukkitRunnable
 
@@ -15,7 +17,8 @@ import org.bukkit.scheduler.BukkitRunnable
  * @author GrowlyX
  * @since 12/17/2021
  */
-object TimeBombGameScenario : GameScenario
+@Listeners
+object TimeBombGameScenario : GameScenario, Listener
 {
     @JvmStatic
     val GOLDEN_HEAD = ItemBuilder(Material.GOLDEN_APPLE)

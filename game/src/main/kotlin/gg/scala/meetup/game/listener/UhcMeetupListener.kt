@@ -3,6 +3,8 @@ package gg.scala.meetup.game.listener
 import gg.scala.cgs.common.CgsGameEngine
 import gg.scala.cgs.common.player.handler.CgsPlayerHandler
 import gg.scala.cgs.common.states.CgsGameState
+import gg.scala.commons.annotations.Listeners
+import gg.scala.flavor.inject.Inject
 import gg.scala.meetup.game.UhcMeetupEngine
 import gg.scala.meetup.game.loadout.UhcMeetupExtendedLoadoutHandler
 import gg.scala.meetup.game.runnable.UhcMeetupBorderRunnable
@@ -11,7 +13,11 @@ import gg.scala.meetup.game.scenario.impl.TimeBombGameScenario
 import gg.scala.meetup.game.sit
 import gg.scala.meetup.game.teleportToRandomLocationWithinArena
 import net.evilblock.cubed.util.CC
+import net.evilblock.cubed.util.bukkit.Constants.HEART_SYMBOL
 import net.evilblock.cubed.util.bukkit.Tasks
+import net.kyori.adventure.platform.bukkit.BukkitAudiences
+import net.kyori.adventure.text.Component
+import net.kyori.adventure.text.format.NamedTextColor
 import org.bukkit.Bukkit
 import org.bukkit.Material
 import org.bukkit.entity.Player
@@ -28,14 +34,19 @@ import org.bukkit.inventory.ItemStack
 import org.bukkit.potion.PotionEffect
 import org.bukkit.potion.PotionEffectType
 import java.util.*
+import kotlin.math.floor
 
 /**
  * @author GrowlyX
  * @since 12/17/2021
  */
+@Listeners
 object UhcMeetupListener : Listener
 {
     val killsTracker = mutableMapOf<UUID, Int>()
+
+    @Inject
+    lateinit var audiences: BukkitAudiences
 
     @EventHandler
     fun onBlockBreak(event: BlockBreakEvent)
@@ -77,6 +88,52 @@ object UhcMeetupListener : Listener
         }
     }
 
+    fun Player.sendHealthHUD(damaged: Player)
+    {
+        audiences.player(this).apply {
+            sendActionBar {
+                Component.text { text ->
+                    text.append(
+                        Component.text("${damaged.name} ")
+                            .color(NamedTextColor.YELLOW)
+                    )
+
+                    val hearts = damaged.health / 2.0
+                    val fullHearts = floor(hearts).toInt()
+
+                    repeat(fullHearts) {
+                        text.append(
+                            Component.text(HEART_SYMBOL)
+                                .color(NamedTextColor.DARK_RED)
+                        )
+                    }
+
+                    if (hearts.toInt().toDouble() != hearts)
+                    {
+                        text.append(
+                            Component.text(HEART_SYMBOL)
+                                .color(NamedTextColor.RED)
+                        )
+                    } else
+                    {
+                        text.append(
+                            Component.text(HEART_SYMBOL)
+                                .color(NamedTextColor.GRAY)
+                        )
+                    }
+
+                    val usedHearts = floor((damaged.maxHealth - damaged.health) / 2.0)
+                    repeat(usedHearts.toInt()) {
+                        text.append(
+                            Component.text(HEART_SYMBOL)
+                                .color(NamedTextColor.GRAY)
+                        )
+                    }
+                }
+            }
+        }
+    }
+
     @EventHandler
     fun onEntityDamageByEntity(
         event: EntityDamageByEntityEvent
@@ -110,7 +167,10 @@ object UhcMeetupListener : Listener
                 {
                     damager.sendMessage("${CC.RED}You cannot damage this player due to their No Clean timer!")
                     event.isCancelled = true
+                    return
                 }
+
+                damager.sendHealthHUD(damaged)
             }
         }
     }

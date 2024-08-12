@@ -2,6 +2,7 @@ package gg.scala.meetup.game.scenario.impl
 
 import gg.scala.cgs.common.CgsGameEngine
 import gg.scala.cgs.common.player.handler.CgsPlayerHandler
+import gg.scala.commons.annotations.Listeners
 import gg.scala.lemon.handler.PlayerHandler
 import gg.scala.meetup.game.UhcMeetupEngine
 import gg.scala.meetup.game.scenario.GameScenario
@@ -19,6 +20,7 @@ import java.util.*
  * @author GrowlyX
  * @since 12/17/2021
  */
+@Listeners
 object NoCleanGameScenario : GameScenario, Listener
 {
     @JvmStatic

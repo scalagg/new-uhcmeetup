@@ -5,8 +5,6 @@ import gg.scala.cgs.common.player.handler.CgsPlayerHandler
 import gg.scala.cgs.common.player.scoreboard.CgsGameScoreboardRenderer
 import gg.scala.cgs.common.runnable.state.StartingStateRunnable
 import gg.scala.cgs.common.states.CgsGameState
-import gg.scala.cgs.game.CgsEnginePlugin
-import gg.scala.lemon.LemonConstants
 import gg.scala.meetup.game.UhcMeetupEngine
 import gg.scala.meetup.game.handler.BorderHandler
 import net.evilblock.cubed.util.CC
@@ -23,7 +21,7 @@ import java.util.*
  */
 object UhcMeetupScoreboard : CgsGameScoreboardRenderer
 {
-    override fun getTitle() = "${CC.B_PRI}UHC Meetup"
+    override fun getTitle() = "${CC.B_PRI}Meetup"
 
     private var remaining = 0
 
@@ -38,32 +36,30 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
 
     override fun render(lines: LinkedList<String>, player: Player, state: CgsGameState)
     {
-        lines.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------${
-            if (state.isAfter(CgsGameState.STARTED))
-                "--" else ""
-        }")
-
+        lines += ""
         if (state == CgsGameState.WAITING || state == CgsGameState.STARTING)
         {
-            if (state == CgsGameState.WAITING)
-            {
-                lines.add("Waiting for players...")
-            } else if (state == CgsGameState.STARTING)
-            {
-                lines.add("Starting in ${CC.PRI}${TimeUtil.formatIntoAbbreviatedString(StartingStateRunnable.PRE_START_TIME)}")
-            }
-
-            lines.add("")
-            lines.add("Players: ${CC.PRI}${
+            lines.add("${CC.GRAY}Players: ${CC.PRI}${
                 Bukkit.getOnlinePlayers().size
             }/${
                 Bukkit.getMaxPlayers()
             }")
             lines.add("")
-            lines.add("Mode: ${CC.PRI}${
+
+            if (state == CgsGameState.WAITING)
+            {
+                lines.add("${CC.WHITE}Waiting...")
+            } else if (state == CgsGameState.STARTING)
+            {
+                lines.add("${CC.GRAY}Starting in")
+                lines += "${CC.WHITE}${TimeUtil.formatIntoAbbreviatedString(StartingStateRunnable.PRE_START_TIME)}"
+            }
+
+            lines += ""
+            lines.add("${CC.GRAY}Mode: ${CC.GOLD}${
                 CgsGameEngine.INSTANCE.gameMode.getName()
             }")
-            lines.add("Version: ${CC.PRI}${
+            lines.add("${CC.GRAY}Version: ${CC.PRI}${
                 CgsGameEngine.INSTANCE.gameInfo.gameVersion
             }")
         } else if (state.isAfter(CgsGameState.STARTED))
@@ -73,27 +69,29 @@ object UhcMeetupScoreboard : CgsGameScoreboardRenderer
             val statistics = UhcMeetupEngine.INSTANCE
                 .getStatistics(cgsGamePlayer)
 
-            lines.add("Border: " + CC.PRI + BorderHandler.currentBorder + CC.GRAY + BorderHandler.getFormattedBorderStatus())
-            lines.add(
-                "Remaining: " + CC.PRI + remaining + "/" + CgsGameEngine.INSTANCE.originalRemaining.size
-            )
-            lines.add("Ping: " + CC.PRI + getFormattedPing(getPing(player)))
-            lines.add("Kills: " + CC.PRI + statistics.gameKills.value)
+            lines.add("${CC.GRAY}Border: " + CC.GOLD + BorderHandler.currentBorder)
+            BorderHandler.getFormattedBorderStatus().apply {
+                if (isNotBlank())
+                {
+                    lines += "${CC.GRAY}Next: ${CC.YELLOW}${BorderHandler.getNextBorder()}${CC.PRI}$this"
+                }
+            }
+            lines += ""
+            lines.add("${CC.GRAY}Remaining: " + CC.PRI + remaining + "/" + CgsGameEngine.INSTANCE.originalRemaining.size)
+            lines += ""
+            lines.add("${CC.GRAY}Ping: " + CC.PRI + getFormattedPing(getPing(player)))
+            lines.add("${CC.GRAY}Kills: " + CC.PRI + statistics.gameKills.value)
 
             if (statistics.noCleanTimer != null)
             {
                 lines.add("")
-                lines.add(CC.D_AQUA + "Cooldowns:")
-                lines.add(" No Clean " + CC.PRI + "(" + statistics.noCleanTimer!!.ticks + ")")
+                lines.add(CC.YELLOW + "Cooldowns:")
+                lines.add("${CC.WHITE}No Clean " + CC.D_GRAY + "(" + TimeUtil.formatIntoMMSS(statistics.noCleanTimer!!.ticks) + ")")
             }
         }
 
         lines.add("")
-        lines.add("${CC.PRI}${LemonConstants.WEB_LINK}")
-        lines.add("${CC.GRAY}${CC.STRIKE_THROUGH}-----------------${
-            if (state.isAfter(CgsGameState.STARTED))
-                "--" else ""
-        }")
+        lines.add("${CC.YELLOW}solara.gg      ${CC.GRAY}")
     }
 
     private fun getFormattedPing(ping: Int): String

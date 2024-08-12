@@ -1,4 +1,0 @@
-rootProject.name = "new-uhcmeetup"
-include "shared"
-include "game"
-include "lobby"

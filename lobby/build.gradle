@@ -1,4 +1,0 @@
-dependencies {
-    compileOnly "gg.scala.cgs:lobby:1.1.4.2"
-    implementation project(":shared")
-}

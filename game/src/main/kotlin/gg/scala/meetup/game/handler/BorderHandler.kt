@@ -1,8 +1,8 @@
 package gg.scala.meetup.game.handler
 
 import gg.scala.cgs.common.CgsGameEngine
-import io.papermc.lib.PaperLib
 import net.evilblock.cubed.util.CC
+import net.evilblock.cubed.util.time.TimeUtil
 import org.bukkit.*
 import org.bukkit.block.BlockFace
 import org.bukkit.entity.Player
@@ -27,7 +27,7 @@ object BorderHandler
 
     fun getFormattedBorderStatus(): String
     {
-        return if (this.currentBorderTime > 0) CC.GRAY + " (" + this.currentBorderTime + "s)" else ""
+        return if (this.currentBorderTime > 0) CC.GRAY + " (" + TimeUtil.formatIntoMMSS(this.currentBorderTime) + ")" else ""
     }
 
     fun setBorder(border: Int)
@@ -68,8 +68,8 @@ object BorderHandler
                 if (player.location.blockX > border)
                 {
                     handleEffects(player)
-                    PaperLib.teleportAsync(
-                        player, Location(
+                    player.teleport(
+                        Location(
                             world,
                             (border - 2).toDouble(), player.location.blockY.toDouble(),
                             player.location.blockZ.toDouble()
@@ -81,8 +81,8 @@ object BorderHandler
                         )
                     )
                     {
-                        PaperLib.teleportAsync(
-                            player, Location(
+                        player.teleport(
+                            Location(
                                 world,
                                 player.location.blockX.toDouble(),
                                 (world.getHighestBlockYAt(
@@ -97,8 +97,8 @@ object BorderHandler
                 if (player.location.blockZ > border)
                 {
                     handleEffects(player)
-                    PaperLib.teleportAsync(
-                        player, Location(
+                    player.teleport(
+                        Location(
                             world,
                             player.location.blockX.toDouble(),
                             player.location.blockY.toDouble(),
@@ -111,8 +111,8 @@ object BorderHandler
                         )
                     )
                     {
-                        PaperLib.teleportAsync(
-                            player, Location(
+                        player.teleport(
+                            Location(
                                 world,
                                 player.location.blockX.toDouble(),
                                 (world.getHighestBlockYAt(
@@ -127,8 +127,8 @@ object BorderHandler
                 if (player.location.blockX < -border)
                 {
                     handleEffects(player)
-                    PaperLib.teleportAsync(
-                        player, Location(
+                    player.teleport(
+                        Location(
                             world,
                             (-border + 2).toDouble(), player.location.blockY.toDouble(),
                             player.location.blockZ.toDouble()
@@ -140,8 +140,8 @@ object BorderHandler
                         )
                     )
                     {
-                        PaperLib.teleportAsync(
-                            player, Location(
+                        player.teleport(
+                            Location(
                                 world,
                                 player.location.blockX.toDouble(),
                                 (world.getHighestBlockYAt(
@@ -156,8 +156,8 @@ object BorderHandler
                 if (player.location.blockZ < -border)
                 {
                     handleEffects(player)
-                    PaperLib.teleportAsync(
-                        player, Location(
+                    player.teleport(
+                        Location(
                             world,
                             player.location.blockX.toDouble(),
                             player.location.blockY.toDouble(),
@@ -170,8 +170,8 @@ object BorderHandler
                         )
                     )
                     {
-                        PaperLib.teleportAsync(
-                            player, Location(
+                        player.teleport(
+                            Location(
                                 world,
                                 player.location.blockX.toDouble(),
                                 (world.getHighestBlockYAt(

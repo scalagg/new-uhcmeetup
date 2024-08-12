@@ -24,7 +24,7 @@ object UhcMeetupRandomArena : CgsGameArena
 
     override fun getPreLobbyLocation() = Location(
         Bukkit.getWorld("world"),
-        0.5, 35.0, 0.5
+        -44.5, 67.0, -0.5, -90.0f, 0.0f
     )
 
     override fun getSpectatorLocation() = Location(

@@ -1,10 +1,10 @@
 package gg.scala.meetup.game
 
 import gg.scala.cgs.common.information.arena.CgsGameArenaHandler
-import gg.scala.cgs.common.information.mode.CgsGameMode
 import gg.scala.cloudsync.shared.discovery.CloudSyncDiscoveryService
 import gg.scala.commons.ExtendedScalaPlugin
 import gg.scala.commons.annotations.container.ContainerEnable
+import gg.scala.commons.core.plugin.*
 import gg.scala.meetup.game.handler.BorderHandler
 import gg.scala.meetup.game.listener.UhcMeetupListener
 import gg.scala.meetup.game.runnable.UhcMeetupWorldGenerationRunnable
@@ -12,8 +12,6 @@ import gg.scala.meetup.game.scenario.impl.NoCleanGameScenario
 import gg.scala.meetup.game.scenario.impl.TimeBombGameScenario
 import gg.scala.meetup.shared.UhcMeetupCgsInfo
 import gg.scala.meetup.shared.gamemode.UhcMeetupSoloGameMode
-import me.lucko.helper.plugin.ap.Plugin
-import me.lucko.helper.plugin.ap.PluginDependency
 import org.bukkit.Bukkit
 
 /**
@@ -21,63 +19,40 @@ import org.bukkit.Bukkit
  * @since 12/17/2021
  */
 @Plugin(
-    name = "UHCMeetup",
-    depends = [
-        PluginDependency("scala-commons"),
-        PluginDependency("Lemon"),
-        PluginDependency("CGS-Engine"),
-        PluginDependency("Grape")
-    ]
+    name = "UHC-Mini",
+    version = "%remote%/%branch%/%id%"
+)
+@PluginAuthor("Scala")
+@PluginWebsite("https://scala.gg")
+@PluginDependencyComposite(
+    PluginDependency("scala-commons"),
+    PluginDependency("ScGameFramework"),
+    PluginDependency("Lemon"),
+    PluginDependency("cloudsync", soft = true)
 )
 class UhcMeetupGame : ExtendedScalaPlugin()
 {
     @ContainerEnable
     fun containerEnable()
     {
-        UhcMeetupWorldGenerationRunnable.initialLoad()
-
-        CgsGameArenaHandler.configure(
+        val engine = UhcMeetupEngine(
+            this,
+            UhcMeetupCgsInfo,
             UhcMeetupSoloGameMode
         )
 
-        val orchestration =
-            loadConfig("orchestration.yml")
-
-        val mode = orchestration.getString("mode")
-            ?: "gg.scala.meetup.shared.gamemode.UhcMeetupSoloGameMode"
-
-        val modeClass = Class.forName(mode)
-
-        val modeClassObject = modeClass
-            .getField("INSTANCE")
-            .get(null)
-
-        val engine = UhcMeetupEngine(
-            this, UhcMeetupCgsInfo,
-            modeClassObject as CgsGameMode
-        )
+        UhcMeetupEngine.INSTANCE = engine
+        CgsGameArenaHandler.engine = engine
 
         engine.initialLoad()
+        CgsGameArenaHandler.configure(UhcMeetupSoloGameMode)
 
-        server.pluginManager.registerEvents(
-            UhcMeetupListener, this
-        )
-
-        listOf(TimeBombGameScenario, NoCleanGameScenario)
-            .forEach { scenario ->
-                scenario.getListeners().forEach {
-                    server.pluginManager.registerEvents(
-                        it, this
-                    )
-                }
-            }
-
-        UhcMeetupEngine.INSTANCE = engine
+        UhcMeetupWorldGenerationRunnable.initialLoad()
         CgsGameArenaHandler.world = Bukkit.getWorld("meetup")
 
         CloudSyncDiscoveryService
             .discoverable.assets
-            .add("gg.scala.meetup:game:uhc-meetup-game")
+            .add("gg.solara.uhc.minis:game:uhc-mini-game")
 
         BorderHandler.setBorder(100)
     }
